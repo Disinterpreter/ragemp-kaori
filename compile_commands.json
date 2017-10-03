@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/disi/ragemp/kaori",
+  "command": "/usr/bin/c++  -Dkaori_EXPORTS  -fPIC   -std=gnu++1y -lstdc++ -fPIC -o CMakeFiles/kaori.dir/src/main.cpp.o -c /home/disi/ragemp/kaori/src/main.cpp",
+  "file": "/home/disi/ragemp/kaori/src/main.cpp"
+}
+]
