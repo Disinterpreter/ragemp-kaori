@@ -27,16 +27,16 @@ void EventHandler::OnPlayerChat(rage::IPlayer *player, const std::u16string &tex
 	u16nick.append(text);
 	player->OutputChatBox(u16nick);
 }
-void test()
+void test(rage::IPlayer *player)
 {
-	std::cout<<"hio!"<<std::endl;
+	std::cout<<player->GetName()<<std::endl;
 }
 void EventHandler::OnPlayerCommand(rage::IPlayer *player, const std::u16string &text)
 {
 	std::cout<<"cmd was recived"<<std::endl;
 	CmdHandl *cmdh = new CmdHandl;
 	cmdh->addCommand(u"help", test);
-	cmdh->callCommand(text);
+	cmdh->callCommand(text,player);
 }
 RAGE_API rage::IPlugin *InitializePlugin(rage::IMultiplayer *mp)
 {
