@@ -40,7 +40,7 @@ void EventHandler::OnPlayerCommand(rage::IPlayer *player, const std::u16string &
 }
 RAGE_API rage::IPlugin *InitializePlugin(rage::IMultiplayer *mp)
 {
-	std::cout << "Gamemode Kaori has been started!" << std::endl;
+	std::cout << "\033[1;32m[OK] \033[0m" << "Gamemode Kaori has been started!" << std::endl;
 	mp->AddEventHandler(new EventHandler);
 	return new rage::IPlugin;
 }
