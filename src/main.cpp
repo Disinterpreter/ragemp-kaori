@@ -4,6 +4,8 @@
 #include <codecvt>
 #include "rageinc/rage.hpp"
 #include "cmdhandler/handler.hpp"
+#include "utils/utils.hpp"
+
 
 class EventHandler 
 		: public rage::IEventHandler,
@@ -27,16 +29,20 @@ void EventHandler::OnPlayerChat(rage::IPlayer *player, const std::u16string &tex
 	u16nick.append(text);
 	player->OutputChatBox(u16nick);
 }
-void test(rage::IPlayer *player)
+void test(rage::IPlayer *player, std::u16string &args)
 {
+	player->OutputChatBox(args);
 	std::cout<<player->GetName()<<std::endl;
 }
 void EventHandler::OnPlayerCommand(rage::IPlayer *player, const std::u16string &text)
 {
 	std::cout<<"cmd was recived"<<std::endl;
+	std::u16string args = GetArguments(text);
+
+	std::u16string cmd = GetCommand(text);
 	CmdHandl *cmdh = new CmdHandl;
 	cmdh->addCommand(u"help", test);
-	cmdh->callCommand(text,player);
+	cmdh->callCommand(cmd,player, args);
 }
 RAGE_API rage::IPlugin *InitializePlugin(rage::IMultiplayer *mp)
 {
