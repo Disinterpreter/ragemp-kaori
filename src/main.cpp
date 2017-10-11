@@ -5,7 +5,7 @@
 #include "rageinc/rage.hpp"
 #include "cmdhandler/handler.hpp"
 #include "utils/utils.hpp"
-
+#include "commands/list.hpp"
 
 class EventHandler 
 		: public rage::IEventHandler,
@@ -14,11 +14,19 @@ class EventHandler
 	public:
 		virtual rage::IPlayerHandler *GetPlayerHandler() {return this;}
 
-		virtual void OnPlayerJoin(rage::IPlayer *player) { std::cout<<"Hai"<<std::endl; }
+		virtual void OnPlayerJoin(rage::IPlayer *player);
 		virtual void OnPlayerChat(rage::IPlayer *player, const std::u16string &text);
 		virtual void OnPlayerCommand(rage::IPlayer *player, const std::u16string &text);
 		
 };
+
+CmdHandl *cmdh;
+
+void EventHandler::OnPlayerJoin( rage::IPlayer *player)
+{
+	cmdh->addCommand(u"help", CmdList::help);
+
+}
 void EventHandler::OnPlayerChat(rage::IPlayer *player, const std::u16string &text)
 {
 	std::string nick = player->GetName();
@@ -40,12 +48,11 @@ void EventHandler::OnPlayerCommand(rage::IPlayer *player, const std::u16string &
 	std::u16string args = GetArguments(text);
 
 	std::u16string cmd = GetCommand(text);
-	CmdHandl *cmdh = new CmdHandl;
-	cmdh->addCommand(u"help", test);
 	cmdh->callCommand(cmd,player, args);
 }
 RAGE_API rage::IPlugin *InitializePlugin(rage::IMultiplayer *mp)
 {
+	cmdh = new CmdHandl;
 	std::cout << "\033[1;32m[OK] \033[0m" << "Gamemode Kaori has been started!" << std::endl;
 	mp->AddEventHandler(new EventHandler);
 	return new rage::IPlugin;
