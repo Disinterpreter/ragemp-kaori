@@ -9,11 +9,13 @@
 
 class EventHandler 
 		: public rage::IEventHandler,
-		public rage::IPlayerHandler
+		public rage::IPlayerHandler,
+		public rage::IVehicleHandler
 {
 	public:
 		virtual rage::IPlayerHandler *GetPlayerHandler() {return this;}
-
+		virtual rage::IVehicleHandler *GetVehicleHandler() {return this;}
+	
 		virtual void OnPlayerJoin(rage::IPlayer *player);
 		virtual void OnPlayerChat(rage::IPlayer *player, const std::u16string &text);
 		virtual void OnPlayerCommand(rage::IPlayer *player, const std::u16string &text);
@@ -25,7 +27,6 @@ CmdHandl *cmdh;
 void EventHandler::OnPlayerJoin( rage::IPlayer *player)
 {
 	cmdh->addCommand(u"help", CmdList::help);
-
 }
 void EventHandler::OnPlayerChat(rage::IPlayer *player, const std::u16string &text)
 {
@@ -55,5 +56,8 @@ RAGE_API rage::IPlugin *InitializePlugin(rage::IMultiplayer *mp)
 	cmdh = new CmdHandl;
 	std::cout << "\033[1;32m[OK] \033[0m" << "Gamemode Kaori has been started!" << std::endl;
 	mp->AddEventHandler(new EventHandler);
+	rage::vector3 pos = {0,0,0};
+	rage::IVehicle *vehicle = mp->GetVehiclePool().New((uint32_t)-591651781,pos);
+	vehicle->GetId();	
 	return new rage::IPlugin;
 }
